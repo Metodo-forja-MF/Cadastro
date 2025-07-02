@@ -32,13 +32,14 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  const docRef = doc(db, "codigos_acesso", codigo);
-  const docSnap = await getDoc(docRef);
+const codigoRef = doc(db, "codigos_acesso", codigoDigitado);
+const codigoSnap = await getDoc(codigoRef);
 
-  if (!docSnap.exists() || docSnap.data().usado) {
-    alert("Código de verificação inválido ou já utilizado.");
-    return;
-  }
+if (!codigoSnap.exists() || codigoSnap.data().usado) {
+  alert("Código de verificação inválido ou já utilizado.");
+  return;
+}
+
 
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
