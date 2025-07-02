@@ -31,7 +31,7 @@ document.getElementById("form-cadastro").addEventListener("submit", function (e)
     .then((userCredential) => {
       alert("Conta criada com sucesso!");
       // ✅ Redireciona para login
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     })
     .catch((error) => {
       console.error(error);
