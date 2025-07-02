@@ -27,12 +27,13 @@ document.getElementById("cadastroForm").addEventListener("submit", async (e) => 
     const codigo = document.getElementById("codigo").value;
 
     const codigoRef = doc(db, "codigos_acesso", codigo);
-    const codigoSnap = await getDoc(codigoRef);
+const codigoSnap = await getDoc(codigoRef);
 
-    if (!codigoSnap.exists() || codigoSnap.data().usado) {
-        alert("Código de verificação inválido ou já utilizado!");
-        return;
-    }
+if (!codigoSnap.exists() || codigoSnap.data().usado) {
+  alert("Código de verificação inválido ou já utilizado.");
+  return;
+}
+
 
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
