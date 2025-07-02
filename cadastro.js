@@ -26,7 +26,7 @@ document.getElementById("cadastroForm").addEventListener("submit", async (e) => 
     const senha = document.getElementById("senha").value;
     const codigo = document.getElementById("codigo").value;
 
-    const codigoRef = doc(db, "codigos", codigo);
+    const codigoRef = doc(db, "codigo", codigo);
     const codigoSnap = await getDoc(codigoRef);
 
     if (!codigoSnap.exists() || codigoSnap.data().usado) {
