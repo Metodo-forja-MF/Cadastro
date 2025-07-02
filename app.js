@@ -29,7 +29,7 @@ document.getElementById("form-cadastro").addEventListener("submit", function (e)
     .then((userCredential) => {
       alert("Conta criada com sucesso!");
       // Redireciona para login
-      window.location.href = "index.html";
+      window.location.href = "https://metodo-forja-mf.github.io/Login/";
     })
     .catch((error) => {
       console.error(error);
