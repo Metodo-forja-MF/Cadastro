@@ -1,8 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBKtKrRP4AjLHcdeEdyTlTZC9hHdv5y7no",
   authDomain: "metodo-forja.firebaseapp.com",
@@ -15,40 +14,47 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
+const form = document.getElementById("cadastro-form");
 
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-    const codigo = document.getElementById("codigo").value;
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const codigoRef = doc(db, "codigos_acesso", codigo);
-const codigoSnap = await getDoc(codigoRef);
+  const nome = document.getElementById("nome").value;
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
+  const codigo = document.getElementById("codigo").value;
 
-if (!codigoSnap.exists() || codigoSnap.data().usado) {
-  alert("Código de verificação inválido ou já utilizado.");
-  return;
-}
+  if (!codigo) {
+    alert("Por favor, insira um código de verificação.");
+    return;
+  }
 
+  const docRef = doc(db, "codigos_acesso", codigo);
+  const docSnap = await getDoc(docRef);
 
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-        await setDoc(doc(db, "usuarios", userCredential.user.uid), {
-            nome: nome,
-            email: email,
-            codigo: codigo
-        });
+  if (!docSnap.exists() || docSnap.data().usado) {
+    alert("Código de verificação inválido ou já utilizado.");
+    return;
+  }
 
-        await updateDoc(codigoRef, {
-            usado: true
-        });
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+    const user = userCredential.user;
 
-        window.location.href = "https://metodo-forja-mf.github.io/Login/";
-    } catch (error) {
-        alert("Erro ao cadastrar: " + error.message);
-    }
+    await setDoc(doc(db, "usuarios", user.uid), {
+      nome: nome,
+      email: email,
+      codigoVerificacao: codigo
+    });
+
+    await updateDoc(docRef, { usado: true });
+
+    alert("Cadastro realizado com sucesso!");
+    window.location.href = "https://metodo-forja-mf.github.io/Login/";
+  } catch (error) {
+    alert("Erro ao cadastrar: " + error.message);
+  }
 });
