@@ -1,23 +1,24 @@
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Método Forja</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Parabéns pela aquisição do Método Forja!</h1>
-        <p class="motivacao">Agora você está a um passo da sua evolução!</p>
-        <form onsubmit="return cadastrarUsuario(event)">
-            <input type="email" id="email" placeholder="Email" required />
-            <input type="password" id="senha" placeholder="Senha" required />
-            <input type="text" id="codigo" placeholder="Código de verificação" required />
+        <h1>Parabéns por adquirir o Método Forja!</h1>
+        <p class="motivacao">Agora você está a um passo da sua evolução.</p>
+        <form id="cadastroForm">
+            <input type="email" id="email" placeholder="Seu e-mail" required />
+            <input type="password" id="password" placeholder="Sua senha" required />
+            <input type="text" id="codigo" placeholder="Código de acesso" required />
             <button type="submit">Cadastrar</button>
         </form>
+        <p id="mensagemErro" class="erro"></p>
     </div>
-    <script type="module" src="cadastro.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
