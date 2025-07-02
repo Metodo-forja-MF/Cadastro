@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro - Método FORJA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <form onsubmit="cadastrar(event)">
+    <h1>Criar Conta</h1>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Senha" required />
+    <button type="submit">Cadastrar</button>
+    <p id="mensagem"></p>
+  </form>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKtKrRP4AjLHcdeEdyTlTZC9hHdv5y7no",
+      authDomain: "metodo-forja.firebaseapp.com",
+      projectId: "metodo-forja",
+      storageBucket: "metodo-forja.firebasestorage.app",
+      messagingSenderId: "949719386034",
+      appId: "1:949719386034:web:5c015b5fbe082821ea86ab",
+      measurementId: "G-6Z9EJLY5LZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.cadastrar = function(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const senha = document.getElementById('password').value;
+
+      createUserWithEmailAndPassword(auth, email, senha)
+        .then((userCredential) => {
+          document.getElementById('mensagem').innerText = "✅ Conta criada com sucesso!";
+        })
+        .catch((error) => {
+          document.getElementById('mensagem').innerText = "Erro: " + error.message;
+        });
+    };
+  </script>
+</body>
+</html>
