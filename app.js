@@ -1,54 +1,37 @@
 
-// Import Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+// Importa as funções do Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Sua configuração do Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyBKtKrRP4AjLHcdeEdyTlTZC9hHdv5y7no",
-  authDomain: "metodo-forja.firebaseapp.com",
-  databaseURL: "https://metodo-forja-default-rtdb.firebaseio.com",
-  projectId: "metodo-forja",
-  storageBucket: "metodo-forja.firebasestorage.app",
-  messagingSenderId: "949719386034",
-  appId: "1:949719386034:web:5c015b5fbe082821ea86ab",
-  measurementId: "G-6Z9EJLY5LZ"
+  apiKey: "SUA_API_KEY",
+  authDomain: "SUA_AUTH_DOMAIN",
+  projectId: "SEU_PROJECT_ID",
+  storageBucket: "SEU_BUCKET",
+  messagingSenderId: "SEU_MESSAGING_ID",
+  appId: "SEU_APP_ID"
 };
+
+// Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 const auth = getAuth(app);
 
-document.getElementById("formCadastro").addEventListener("submit", async (e) => {
+// Captura o formulário
+document.getElementById("form-cadastro").addEventListener("submit", function (e) {
   e.preventDefault();
-  const nome = document.getElementById("nome").value;
+
   const email = document.getElementById("email").value;
   const senha = document.getElementById("senha").value;
-  const codigo = document.getElementById("codigo").value.trim().toUpperCase();
-  const mensagem = document.getElementById("mensagem");
 
-  try {
-    const codigosRef = collection(db, "codigos_acesso");
-    const q = query(codigosRef, where("codigo", "==", codigo), where("usado", "==", false));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      mensagem.innerText = "❌ Código de acesso inválido ou já utilizado.";
-      return;
-    }
-
-    const codigoDoc = querySnapshot.docs[0];
-    await createUserWithEmailAndPassword(auth, email, senha);
-
-    // Marcar como usado
-    await updateDoc(doc(db, "codigos_acesso", codigoDoc.id), {
-      usado: true,
-      email: email
+  createUserWithEmailAndPassword(auth, email, senha)
+    .then((userCredential) => {
+      alert("Conta criada com sucesso!");
+      // ✅ Redireciona para login
+      window.location.href = "index.html";
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Erro ao cadastrar: " + error.message);
     });
-
-    mensagem.style.color = "lime";
-    mensagem.innerText = "✅ Cadastro realizado com sucesso!";
-  } catch (error) {
-    mensagem.innerText = `Erro: ${error.message}`;
-  }
 });
