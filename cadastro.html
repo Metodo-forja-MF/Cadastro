@@ -3,15 +3,29 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cadastro - Método Forja</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>Criar Conta</h2>
-  <form id="form-cadastro">
-    <input type="email" id="email" placeholder="Seu e-mail" required />
-    <input type="password" id="senha" placeholder="Sua senha" required />
-    <button type="submit">Cadastrar</button>
-  </form>
+  <div class="smoke"></div>
+  <div class="flames"></div>
+
+  <div class="container">
+    <h2>Parabéns pela sua conquista!</h2>
+    <p style="text-align:center; margin-bottom: 20px; font-size: 15px;">
+      Você acaba de adquirir o <strong>Método Forja</strong>, um passo importante rumo à sua transformação.
+    </p>
+    <p style="text-align:center; margin-bottom: 30px; font-size: 14px; color: #ccc;">
+      "Agora você está a um passo da sua evolução. A forja molda apenas os que se atrevem ao fogo."
+    </p>
+
+    <form id="form-cadastro">
+      <input type="email" id="email" placeholder="Seu e-mail" required />
+      <input type="password" id="senha" placeholder="Sua senha" required />
+      <button type="submit">Criar Conta</button>
+    </form>
+  </div>
 
   <script type="module" src="app.js"></script>
 </body>
