@@ -1,64 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(#1f1c18, #3c2f2f);
+  background: #111;
   color: #fff;
-  height: 100vh;
+  font-family: 'Arial', sans-serif;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background-image: url('https://images.unsplash.com/photo-1608139747583-aba99ca6c497?auto=format&fit=crop&w=1470&q=80');
-  background-size: cover;
-  background-position: center;
-  backdrop-filter: brightness(0.5);
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  background: #222;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 0 15px orange;
 }
 
 form {
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(255, 100, 0, 0.6);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-h1 {
-  margin-bottom: 20px;
-  color: #ff6a00;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-input[type="email"],
-input[type="password"] {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
+input, button {
+  margin: 0.5em 0;
+  padding: 0.7em;
+  font-size: 1em;
 }
 
 button {
-  background-color: #ff6a00;
-  color: white;
-  padding: 12px 24px;
+  background: orange;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
   cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-button:hover {
-  background-color: #e65c00;
 }
 
 #mensagem {
-  margin-top: 15px;
-  font-weight: bold;
+  margin-top: 1em;
+  color: red;
 }
