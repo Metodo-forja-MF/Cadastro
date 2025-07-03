@@ -1,5 +1,6 @@
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
@@ -18,44 +19,42 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 const form = document.getElementById("cadastro-form");
-
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const nome = document.getElementById("nome").value;
-  const email = document.getElementById("email").value;
-  const senha = document.getElementById("senha").value;
-  const codigo = document.getElementById("codigo").value;
+  const nome = document.getElementById("nome").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const senha = document.getElementById("senha").value.trim();
+  const codigo = document.getElementById("codigo").value.trim();
 
-  if (!codigo) {
-    alert("Por favor, insira um código de verificação.");
+  const msgDiv = document.getElementById("mensagem");
+  msgDiv.textContent = "";
+
+  if (!nome || !email || !senha || !codigo) {
+    msgDiv.textContent = "Por favor, preencha todos os campos.";
     return;
   }
 
-const codigoRef = doc(db, "codigos_acesso", codigoDigitado);
-const codigoSnap = await getDoc(codigoRef);
-
-if (!codigoSnap.exists() || codigoSnap.data().usado) {
-  alert("Código de verificação inválido ou já utilizado.");
-  return;
-}
-
-
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-    const user = userCredential.user;
+    const codigoRef = doc(db, "codigos_acesso", codigo);
+    const codigoSnap = await getDoc(codigoRef);
 
-    await setDoc(doc(db, "usuarios", user.uid), {
-      nome: nome,
-      email: email,
-      codigoVerificacao: codigo
-    });
+    if (!codigoSnap.exists()) {
+      msgDiv.textContent = "Código inválido.";
+      return;
+    }
 
-    await updateDoc(docRef, { usado: true });
+    if (codigoSnap.data().usado) {
+      msgDiv.textContent = "Este código já foi utilizado.";
+      return;
+    }
 
-    alert("Cadastro realizado com sucesso!");
+    await createUserWithEmailAndPassword(auth, email, senha);
+
+    await updateDoc(codigoRef, { usado: true });
+
     window.location.href = "https://metodo-forja-mf.github.io/Login/";
   } catch (error) {
-    alert("Erro ao cadastrar: " + error.message);
+    msgDiv.textContent = "Erro ao cadastrar: " + error.message;
   }
 });
